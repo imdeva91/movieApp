@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 //base url..
 
-const BASE_URL = `http://www.omdbapi.com/?i=tt3896198&apikey=${import.meta.env.VITE_API_KEY}&s=titanic`;
+export const BASE_URL = `http://www.omdbapi.com?apikey=${import.meta.env.VITE_API_KEY}`;
 
 const AppContext = React.createContext();
 
@@ -13,9 +13,12 @@ const AppProvider = ({ children }) => {
     const [movies, setMovies] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState({ show: "false", msg: "" })
+    const [query,setQuery] = useState("titanic")
 
 
     const getMovies = async (url) => {
+
+        setIsLoading(true)
 
         try {
             const { data } = await axios.get(url);
@@ -37,13 +40,18 @@ const AppProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        getMovies(BASE_URL);
-    }, []);
-    console.log(movies)
+        const timerOut = setTimeout(()=>{getMovies(`${BASE_URL}&i=tt3896198&s=${query}`)},800)
+        return ()=> clearTimeout(timerOut)
+    }, [query]);
+
+
+    // console.log(movies)
     return <AppContext.Provider value={{
         isLoading,
         isError,
-        movies
+        movies,
+        query,
+        setQuery
     }}>{children}</AppContext.Provider>;
 };
 

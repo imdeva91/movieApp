@@ -105,8 +105,9 @@ input {
 /* Single Movie css code  */
 
 .movie-section {
-  width: 100%;
   height: 100vh;
+  width: 100%;
+  
   background-color: var(--text-clr);
   display: grid;
   place-items: center;
@@ -229,7 +230,7 @@ a:hover img {
   }
 
   .movie-section {
-    height: auto;
+    /* height: auto; */
     padding: 4.8rem 0;
   }
 
